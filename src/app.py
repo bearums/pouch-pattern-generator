@@ -10,9 +10,7 @@ bottom_width = 14
 depth = 8
 
 theta_init = find_theta(height, top_width, bottom_width, depth, 0, np.pi)
-#TODO
-# set autosizing of plots
-# arrange items better
+
 
 
 fig_pattern = make_pattern_plot(height, top_width, bottom_width, depth, theta_init)
@@ -25,9 +23,11 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = Dash(__name__, external_stylesheets=external_stylesheets)
 #app = Dash(__name__)
 
+# Declare server for Heroku deployment. Needed for Procfile.
+server = app.server
+
 label_style= {"padding": "10px 5px 5px"}
 app.layout = html.Div( [
-
 html.Div([
         html.Div("height/cm", style= label_style),
         dcc.Slider(id='height-slider',
