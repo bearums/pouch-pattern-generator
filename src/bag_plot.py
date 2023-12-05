@@ -1,7 +1,7 @@
 import plotly.graph_objects as go
 
 bagplot_template = dict(
-    layout=go.Layout( scene = dict(
+    layout=go.Layout( width=500,    height=400, scene = dict(
         xaxis = dict(visible=False),
         yaxis = dict(visible=False),
         zaxis =dict(visible=False),
@@ -12,7 +12,7 @@ bagplot_template = dict(
         r=10,
         b=10,
         t=10,
-        pad=4
+        pad=0
     ),
      autosize=True)
 )
@@ -25,7 +25,7 @@ def make_plot(height, top_width, bottom_width, depth):
 
     col='black'
     fig = go.Figure()
-    fig.update_layout( template=bagplot_template, width=800,    height=500,)
+    fig.update_layout( template=bagplot_template)
     fig.update_layout(uirevision='constant') # do not reset camera view
     for points_ in [points, [points[1],points[3]],[points[0],points[-1]], [points[0],points[-2]],[points[2],points[-1]]]:
         fig.add_trace(go.Scatter3d(x=[p[0] for p in points_], 

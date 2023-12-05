@@ -26,7 +26,7 @@ app = Dash(__name__, external_stylesheets=external_stylesheets)
 # Declare server for Heroku deployment. Needed for Procfile.
 server = app.server
 
-label_style= {"padding": "10px 5px 5px"}
+label_style= {"padding": "10px 10px"}
 app.layout = html.Div( [
 html.Div([
         html.Div("height/cm", style= label_style),
@@ -75,7 +75,7 @@ html.Div([
      ],style={'width': '30%', 'display': 'inline-block', 'float':'left'}),
      html.Div( dcc.Graph(figure=fig, 
                          id='3dplot',
-                         style={'width': '55%', 'float': 'left', 'display': 'inline-block'})), 
+                         style={'width': '40%', 'float': 'left', 'display': 'inline-block'})), 
      html.Div( dcc.Graph(figure=fig_pattern, 
                          id='pattern_plot',
                          style={'width': '80%', 'float': 'left', 'display': 'flex'}, 

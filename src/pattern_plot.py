@@ -8,6 +8,7 @@ patternplot_template = dict(
                         width=300,    
                         height=500, 
                         plot_bgcolor = "white",
+                         margin = dict(l=20, r=0, t=5, b=20)
                         )
 )
 
@@ -146,20 +147,24 @@ def make_pattern_plot(height, top_width, bottom_width, depth, theta):
     
     # format plot
     #fig_pattern.update_layout(scene_aspectmode='data',width=800,    height=500, plot_bgcolor = "white")
-    fig_pattern.update_layout( template=patternplot_template)
-    fig_pattern.update_xaxes(showgrid=False,
+    fig_pattern.update_layout( template=patternplot_template,)
+    fig_pattern.update_xaxes(
+                             scaleratio = 1,
+                             showgrid=False,
                              gridcolor='LightPink', 
                              gridwidth=0.5, 
-                             showticklabels=True,  
+                             showticklabels=False,  
                              dtick=1, 
-                             range =[-0.5, max(xs)+0.5],
-                             scaleratio = 1)
+                             range =[-0.1, max(xs)+0.5]
+                             )
     fig_pattern.update_yaxes(
-    #scaleanchor = "x",
-    scaleratio = 1,
-    showgrid=False,gridcolor='LightPink', gridwidth=0.5,
-    showticklabels =True , dtick=1,
-    range = [-0.5, max(ys)+0.5]
-    )
+                            #scaleanchor = "x",
+                            scaleratio = 1,
+                            showgrid=False,
+                            gridcolor='LightPink', 
+                            gridwidth=0.5,
+                            showticklabels =False , dtick=1,
+                            range = [-0.5, max(ys)+0.5]
+                            )
 
     return fig_pattern
