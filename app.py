@@ -1,22 +1,21 @@
 from bag_plot import make_plot
-from pattern_plot import make_pattern_plot
+from pattern_plot import make_pattern_plot, calc_points, find_theta
 from dash import Dash, dcc, html, Input, Output, callback
+import numpy as np
 
-
-#parameters of pounch
+#initial parameters of pounch
 height = 12
 top_width = 16
 bottom_width = 14
 depth = 8
 
-
+theta_init = find_theta(height, top_width, bottom_width, depth, 0, np.pi)
 #TODO
-# print dimensions on pattern piece 
 # set autosizing of plots
 # arrange items better
 
 
-fig_pattern = make_pattern_plot(height, top_width, bottom_width, depth)
+fig_pattern = make_pattern_plot(height, top_width, bottom_width, depth, theta_init)
 
 fig = make_plot(height, top_width, bottom_width, depth)
 
@@ -26,7 +25,7 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = Dash(__name__, external_stylesheets=external_stylesheets)
 #app = Dash(__name__)
 
-label_style= {"padding": "20px 40px 15px"}
+label_style= {"padding": "10px 5px 5px"}
 app.layout = html.Div( [
 
 html.Div([
@@ -74,8 +73,13 @@ html.Div([
                     updatemode = 'drag'
         )
      ],style={'width': '30%', 'display': 'inline-block', 'float':'left'}),
-     html.Div( dcc.Graph(figure=fig, id='3dplot',style={'width': '65%', 'float': 'left', 'display': 'inline-block'})), 
-     html.Div( dcc.Graph(figure=fig_pattern, id='pattern_plot',style={'width': '80%', 'float': 'left', 'display': 'inline'}, config={"staticPlot":False}))
+     html.Div( dcc.Graph(figure=fig, 
+                         id='3dplot',
+                         style={'width': '55%', 'float': 'left', 'display': 'inline-block'})), 
+     html.Div( dcc.Graph(figure=fig_pattern, 
+                         id='pattern_plot',
+                         style={'width': '80%', 'float': 'left', 'display': 'flex'}, 
+                         config={"staticPlot":False}))
 ])
 
 @callback(
@@ -86,10 +90,12 @@ html.Div([
     Input('bottom-width-slider', 'value'),
     Input('depth-slider', 'value')
     )
-def update_chart(height, top_width, bottom_width, depth):
+def update_chart(height, top_width, bottom_width, depth, theta_init=theta_init):
     #print("height = %s \n top width = %s"%(height, top_width))
+    theta_new = find_theta(height, top_width, bottom_width, depth, 0.5*theta_init, 1.5*theta_init)
+    #print("theta_new %.3f" %theta_new) 
     fig=make_plot(height, top_width, bottom_width, depth)
-    fig_pattern = make_pattern_plot(height, top_width, bottom_width, depth)
+    fig_pattern = make_pattern_plot(height, top_width, bottom_width, depth, theta_new)
     return fig, fig_pattern
 
 if __name__ == '__main__':
