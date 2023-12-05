@@ -99,4 +99,5 @@ def update_chart(height, top_width, bottom_width, depth, theta_init=theta_init):
     return fig, fig_pattern
 
 if __name__ == '__main__':
-    app.run(debug=True, port = 8053)
+    app.run(debug=True, port = 8053) 
+
