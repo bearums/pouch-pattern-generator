@@ -2,6 +2,9 @@ from bag_plot import make_plot
 from pattern_plot import make_pattern_plot, calc_points, find_theta
 from dash import Dash, dcc, html, Input, Output, callback
 import numpy as np
+from base64 import b64encode
+import io
+
 
 #initial parameters of pounch
 height = 12
@@ -22,6 +25,13 @@ fig = make_plot(height, top_width, bottom_width, depth)
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = Dash(__name__, external_stylesheets=external_stylesheets)
 #app = Dash(__name__)
+
+buffer = io.StringIO()
+fig.write_html(buffer)
+
+html_bytes = buffer.getvalue().encode()
+encoded = b64encode(html_bytes).decode()
+
 
 # Declare server for Heroku deployment. Needed for Procfile.
 server = app.server
@@ -75,11 +85,19 @@ html.Div([
      ],style={'width': '30%', 'display': 'inline-block', 'float':'left'}),
      html.Div( dcc.Graph(figure=fig, 
                          id='3dplot',
-                         style={'width': '40%', 'float': 'left', 'display': 'inline-block'})), 
+                         style={'width': '40%', 'float': 'left', 'display': 'inline-block'})
+            ), 
      html.Div( dcc.Graph(figure=fig_pattern, 
                          id='pattern_plot',
                          style={'width': '80%', 'float': 'left', 'display': 'flex'}, 
-                         config={"staticPlot":False}))
+                         config={"staticPlot":False})
+                ),
+    html.A(
+        html.Button("Download as HTML"), 
+        id="download",
+        href="data:text/html;base64," + encoded,
+        download="plotly_graph.html"
+    )
 ])
 
 @callback(
