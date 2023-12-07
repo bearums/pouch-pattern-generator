@@ -1,5 +1,5 @@
 import plotly.graph_objects as go
-from math import atan2, sqrt,pi, cos, sin
+from math import pi, cos, sin
 import numpy as np
 
 
@@ -9,22 +9,24 @@ def my_bisection(f, a, b, tol):
     # by a and b to within tolerance 
     # | f(m) | < tol with m the midpoint 
     # between a and b Recursive implementation
-    
+    sgn_fa = np.sign(f(a))
+    sgn_fb = np.sign(f(b))
+
     # check if a and b bound a root
-    if np.sign(f(a)) == np.sign(f(b)):
+    if sgn_fa == sgn_fb:
         raise Exception("The scalars a and b do not bound a root")
         
     # get midpoint
     m = (a + b)/2
-    
+    sgn_fm = np.sign(f(m))
     if np.abs(f(m)) < tol:
         # stopping condition, report m as root
         return m
-    elif np.sign(f(a)) == np.sign(f(m)):
+    if sgn_fa == sgn_fm:
         # case where m is an improvement on a. 
         # Make recursive call with a = m
         return my_bisection(f, m, b, tol)
-    elif np.sign(f(b)) == np.sign(f(m)):
+    elif sgn_fb == sgn_fm:
         # case where m is an improvement on b. 
         # Make recursive call with b = m
         return my_bisection(f, a, m, tol)

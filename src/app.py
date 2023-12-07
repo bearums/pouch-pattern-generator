@@ -90,9 +90,7 @@ html.Div([
     Input('depth-slider', 'value')
     )
 def update_chart(height, top_width, bottom_width, depth, theta_init=theta_init, fig_bag=fig_bag, fig_pattern=fig_pattern):
-    #print("height = %s \n top width = %s"%(height, top_width))
     theta_new = find_theta(height, top_width, bottom_width, depth, 0.5*theta_init, 1.5*theta_init)
-    #print("theta_new %.3f" %theta_new) 
     fig_bag=update_bag_plot(height, top_width, bottom_width, depth, fig_bag)
     fig_pattern = update_pattern_plot(height, top_width, bottom_width, depth, theta_new,fig_pattern)
     return fig_bag, fig_pattern
