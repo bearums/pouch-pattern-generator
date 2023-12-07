@@ -17,7 +17,6 @@ bagplot_template = dict(
      autosize=True)
 )
 
-
 def initialise_bag_plot():
     fig = go.Figure()
     fig.update_layout( template=dict(

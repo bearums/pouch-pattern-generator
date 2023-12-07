@@ -29,6 +29,7 @@ def my_bisection(f, a, b, tol):
         # Make recursive call with b = m
         return my_bisection(f, a, m, tol)
         
+
 def find_theta(height, top_width, bottom_width, depth, theta_guess_low, theta_guess_hi ):
     #calculate theta
     e = 0.5*top_width

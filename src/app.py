@@ -18,7 +18,6 @@ fig_pattern = initialise_pattern_plot()
 fig_bag = initialise_bag_plot()
 
 
-
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = Dash(__name__, external_stylesheets=external_stylesheets)
 #app = Dash(__name__)
