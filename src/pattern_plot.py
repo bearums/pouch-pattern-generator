@@ -2,15 +2,7 @@ import plotly.graph_objects as go
 from math import atan2, sqrt,pi, cos, sin
 import numpy as np
 
-patternplot_template = dict(
-    layout=go.Layout( showlegend =False,
-                        scene_aspectmode='data',
-                        width=300,    
-                        height=500, 
-                        plot_bgcolor = "white",
-                         margin = dict(l=20, r=0, t=5, b=20)
-                        )
-)
+
 
 def my_bisection(f, a, b, tol): 
     # approximates a root, R, of f bounded 
@@ -46,7 +38,7 @@ def find_theta(height, top_width, bottom_width, depth, theta_guess_low, theta_gu
     a= 0.5*depth
     
     res =lambda theta: b*cos(theta) + a*sin(theta) +c - e
-    theta=my_bisection(res, theta_guess_low, theta_guess_hi, 1e-4)
+    theta=my_bisection(res, theta_guess_low, theta_guess_hi, 5e-2)
     return theta
     
 def calc_points(height, top_width, bottom_width, depth, theta):
@@ -68,11 +60,45 @@ def calc_points(height, top_width, bottom_width, depth, theta):
                     'GA': height + 0.5*depth}             
     return {"pattern_points":pattern_points, "side_lengths":side_lengths, "theta":theta}
 
-def make_pattern_plot(height, top_width, bottom_width, depth, theta):
+def initialise_pattern_plot():
+    fig_pattern = go.Figure()
+    fig_pattern.update_layout( template= dict(
+                                    layout=go.Layout( showlegend =False,
+                                                        scene_aspectmode='data',
+                                                        width=300,    
+                                                        height=500, 
+                                                        plot_bgcolor = "white",
+                                                        margin = dict(l=20, r=0, t=5, b=20)
+                                                    )
+                                                )
+                            )
+    fig_pattern.update_xaxes(
+                             scaleratio = 1,
+                             showgrid=False,
+                             gridcolor='LightPink', 
+                             gridwidth=0.5, 
+                             showticklabels=False,  
+                             dtick=1, 
+                             #range =[-0.1, max(xs)+0.5]
+                             )
+    fig_pattern.update_yaxes(
+                            #scaleanchor = "x",
+                            scaleratio = 1,
+                            showgrid=False,
+                            gridcolor='LightPink', 
+                            gridwidth=0.5,
+                            showticklabels =False , dtick=1,
+                            #range = [-0.5, max(ys)+0.5]
+                            )
+    return fig_pattern
+
+def update_pattern_plot(height, top_width, bottom_width, depth, theta, fig_pattern):
     #break up into smaller functions
     # 1) plot lines
     # 2) plot dimensions
-    fig_pattern = go.Figure()
+    
+    #clear plot of all lines
+    fig_pattern.data = []
     
     #plot lines of pattern
     calc_res= calc_points(height, top_width, bottom_width, depth, theta)
@@ -145,26 +171,5 @@ def make_pattern_plot(height, top_width, bottom_width, depth, theta):
                                      textfont_size=20 ))                    
             
     
-    # format plot
-    #fig_pattern.update_layout(scene_aspectmode='data',width=800,    height=500, plot_bgcolor = "white")
-    fig_pattern.update_layout( template=patternplot_template,)
-    fig_pattern.update_xaxes(
-                             scaleratio = 1,
-                             showgrid=False,
-                             gridcolor='LightPink', 
-                             gridwidth=0.5, 
-                             showticklabels=False,  
-                             dtick=1, 
-                             range =[-0.1, max(xs)+0.5]
-                             )
-    fig_pattern.update_yaxes(
-                            #scaleanchor = "x",
-                            scaleratio = 1,
-                            showgrid=False,
-                            gridcolor='LightPink', 
-                            gridwidth=0.5,
-                            showticklabels =False , dtick=1,
-                            range = [-0.5, max(ys)+0.5]
-                            )
 
     return fig_pattern
