@@ -1,22 +1,5 @@
 import plotly.graph_objects as go
 
-bagplot_template = dict(
-    layout=go.Layout( width=500,    height=400, scene = dict(
-        xaxis = dict(visible=False),
-        yaxis = dict(visible=False),
-        zaxis =dict(visible=False),
-        aspectmode="data"
-        ),
-        margin=dict(
-        l=10,
-        r=10,
-        b=10,
-        t=10,
-        pad=0
-    ),
-     autosize=True)
-)
-
 def initialise_bag_plot():
     fig = go.Figure()
     fig.update_layout( template=dict(
