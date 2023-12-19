@@ -134,7 +134,12 @@ def update_pattern_plot(height, top_width, bottom_width, depth, theta, fig_patte
     txt_pos_x.append((xs[-1]+ xs[0])*0.5 + text_paddings[-1][0])
     txt_pos_y.append((ys[-1]+ ys[0])*0.5 + text_paddings[-1][1])
     txt_list.append(list(side_lengths.values())[-1])
-    fig_pattern.add_trace(go.Scatter(x=txt_pos_x, y=txt_pos_y, mode='text', text = txt_list, textposition="top right"))
+    fig_pattern.add_trace(go.Scatter(x=txt_pos_x, 
+                                     y=txt_pos_y, 
+                                     mode='text', 
+                                     text = txt_list, 
+                                     textposition="top right",
+                                     textfont_size=16))
 
 
     #make triangle for angled section
@@ -154,17 +159,19 @@ def update_pattern_plot(height, top_width, bottom_width, depth, theta, fig_patte
                                      y=[(pattern_points['C'][0]+pattern_points['E'][0])*0.5], 
                                      mode='text', 
                                      text = txt, 
-                                     textposition="top left"  ))         
+                                     textposition="top left",
+                                    textfont_size=16  ))         
     #label for horizontal line
     txt = "%.2f"%abs(-pattern_points['C'][1]+pattern_points['E'][1])
     fig_pattern.add_trace(go.Scatter(x=[(pattern_points['C'][1] + pattern_points['E'][1])*0.5], 
                                      y=[text_padding_dotted_lines[1]+pattern_points['E'][0]], 
                                      mode='text', 
                                      text = txt, 
-                                     textposition="bottom center"  ))                    
+                                     textposition="bottom center",
+                                     textfont_size=16  ))                    
                               
     # add central text with explanation
-    explanation_pos = ((max(xs)+ min(xs)) *0.5, (max(ys)+ min(ys)) *0.1)
+    explanation_pos = ((max(xs)+ min(xs)) *0.5, (max(ys)+ min(ys)) *0.25)
     txt = "<b>Seam allowance not included <br><br> All measurements in cm <br><br> Zip sewn onto black line"
     fig_pattern.add_trace(go.Scatter(x=[explanation_pos[0]], 
                                      y=[explanation_pos[1]], 
