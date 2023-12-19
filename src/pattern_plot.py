@@ -107,8 +107,8 @@ def update_pattern_plot(height, top_width, bottom_width, depth, theta, fig_patte
     calc_res= calc_points(height, top_width, bottom_width, depth, theta)
     pattern_points= calc_res['pattern_points']
     side_lengths= calc_res['side_lengths']
-    ys = np.array([q[0] for q in pattern_points.values()])
-    xs = np.array([q[1] for q in pattern_points.values()])
+    xs = [q[1] for q in pattern_points.values()]
+    ys = [q[0] for q in pattern_points.values()]
     fig_pattern.add_trace(go.Scatter(x=xs[-2:], y =ys[-2:] , line={'color':'black'})) # plot zipper side in black
     fig_pattern.add_trace(go.Scatter(x=xs[:-1], y =ys[:-1] , line={'color':'blue'})) 
     fig_pattern.add_trace(go.Scatter(x=[xs[0],xs[-1]], y =[ys[0],ys[-1]], line={'color':'blue'})) 
