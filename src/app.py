@@ -2,8 +2,7 @@ from bag_plot import initialise_bag_plot, update_bag_plot
 from pattern_plot import update_pattern_plot, find_theta, initialise_pattern_plot
 from dash import Dash, dcc, html, Input, Output, callback, State
 from dash import callback_context
-import numpy as np
-
+from math import pi
 #initial parameters of pounch
 height = 12
 top_width = 16
@@ -11,7 +10,7 @@ bottom_width = 14
 depth = 8
 button_val = 0
 
-theta_init = find_theta(height, top_width, bottom_width, depth, 0, np.pi)
+theta_init = find_theta(height, top_width, bottom_width, depth, 0, pi)
 
 
 
@@ -38,7 +37,7 @@ html.Div([
                    value=height,
                    marks=None,
                     tooltip={"placement": "bottom", "always_visible": True},
-                    updatemode = 'drag',
+                    updatemode = 'mouseup',
         ),
         html.Div("top width/cm", style= label_style),
         dcc.Slider(
@@ -49,7 +48,7 @@ html.Div([
                    value=top_width,
                    marks=None,
                     tooltip={"placement": "bottom", "always_visible": True},
-                    updatemode = 'drag'
+                    updatemode = 'mouseup'
         ),
         html.Div("bottom width/cm", style= label_style),
         dcc.Slider(
@@ -60,7 +59,7 @@ html.Div([
                    value=bottom_width,
                    marks=None,
                     tooltip={"placement": "bottom", "always_visible": True},
-                    updatemode = 'drag'
+                    updatemode = 'mouseup'
         ),
         html.Div("bottom depth/cm", style= label_style),
         dcc.Slider(
@@ -71,7 +70,7 @@ html.Div([
                    value=depth,
                    marks=None,
                     tooltip={"placement": "bottom", "always_visible": True},
-                    updatemode = 'drag'
+                    updatemode = 'mouseup'
         ),
          html.Button('Submit', id='button', n_clicks=0)
      ],style={'width': '30%', 'display': 'inline-block', 'float':'left'}),
