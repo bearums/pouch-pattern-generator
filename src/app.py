@@ -1,6 +1,7 @@
 from bag_plot import initialise_bag_plot, update_bag_plot
 from pattern_plot import update_pattern_plot, find_theta, initialise_pattern_plot
-from dash import Dash, dcc, html, Input, Output, callback
+from dash import Dash, dcc, html, Input, Output, callback, State
+from dash import callback_context
 import numpy as np
 
 #initial parameters of pounch
@@ -8,6 +9,7 @@ height = 12
 top_width = 16
 bottom_width = 14
 depth = 8
+button_val = 0
 
 theta_init = find_theta(height, top_width, bottom_width, depth, 0, np.pi)
 
@@ -70,7 +72,8 @@ html.Div([
                    marks=None,
                     tooltip={"placement": "bottom", "always_visible": True},
                     updatemode = 'drag'
-        )
+        ),
+         html.Button('Submit', id='button', n_clicks=0)
      ],style={'width': '30%', 'display': 'inline-block', 'float':'left'}),
      html.Div( dcc.Graph(figure=fig_bag, 
                          id='3dplot',
@@ -84,15 +87,30 @@ html.Div([
 @callback(
     Output('3dplot', 'figure'), 
     Output('pattern_plot', 'figure'), 
+    
     Input('height-slider', 'value') , 
     Input('top-width-slider', 'value'),
     Input('bottom-width-slider', 'value'),
-    Input('depth-slider', 'value')
+    Input('depth-slider', 'value'),
+    Input('button', 'n_clicks'),
     )
-def update_chart(height, top_width, bottom_width, depth, theta_init=theta_init, fig_bag=fig_bag, fig_pattern=fig_pattern):
+
+
+
+
+def update_chart(height, top_width, bottom_width, depth,button, theta_init=theta_init, fig_bag=fig_bag, fig_pattern=fig_pattern):
     theta_new = find_theta(height, top_width, bottom_width, depth, 0.5*theta_init, 1.5*theta_init)
     fig_bag=update_bag_plot(height, top_width, bottom_width, depth, fig_bag)
-    fig_pattern = update_pattern_plot(height, top_width, bottom_width, depth, theta_new,fig_pattern)
+    
+    
+   
+    global button_val
+    #print(button_val, button)
+    if button>button_val:
+        button_val = button
+        fig_pattern = update_pattern_plot(height, top_width, bottom_width, depth, theta_new,fig_pattern)
+    elif fig_pattern.data !=[] :
+        fig_pattern.data = []
     return fig_bag, fig_pattern
 
 if __name__ == '__main__':
